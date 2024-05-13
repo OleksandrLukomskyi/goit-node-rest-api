@@ -37,20 +37,23 @@ export const createContact = ctrlWrapper(async (req, res) => {
 
 export const updateContact = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
+  const { name, email, phone, favorite } = req.body;
+
   const contact = {
-    name: req.body.name,
-    email: req.body.email,
-    phone: req.body.phone,
-    favorite: req.body.favorite,
+    name,
+    email,
+    phone,
+    favorite,
   };
-  const result = await Contacts.findByIdAndUpdate(id, contact);
-  if (!contact) {
-    throw HttpError(404);
+
+  if (!name && !email && !phone && !favorite) {
+    return res.status(400).json({
+      message: 'Request body is empty or does not contain any properties',
+    });
   }
-  if (Object.keys(contact).length === 0) {
-    return res
-      .status(400)
-      .json({ message: 'Body must have at least on field' });
+  const result = await Contacts.findByIdAndUpdate(id, contact, { new: true });
+  if (!result) {
+    throw HttpError(404);
   }
 
   res.send(result);
@@ -58,21 +61,22 @@ export const updateContact = ctrlWrapper(async (req, res) => {
 
 export const updeteStatusContact = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
-  console.log(req.params);
+  const { name, email, phone, favorite } = req.body;
+
   const contact = {
-    name: req.body.name,
-    email: req.body.email,
-    phone: req.body.phone,
-    favorite: req.body.favorite,
+    name,
+    email,
+    phone,
+    favorite,
   };
-  const result = await Contacts.findByIdAndUpdate(id, contact);
-  if (!contact) {
-    throw HttpError(404);
+  if (!name && !email && !phone && !favorite) {
+    return res.status(400).json({
+      message: 'Request body is empty or does not contain any properties',
+    });
   }
-  if (Object.keys(contact).length === 0) {
-    return res
-      .status(400)
-      .json({ message: 'Body must have at least on field' });
+  const result = await Contacts.findByIdAndUpdate(id, contact, { new: true });
+  if (!result) {
+    throw HttpError(404);
   }
 
   res.send(result);
