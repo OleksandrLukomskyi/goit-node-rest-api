@@ -13,17 +13,29 @@ import {
   createContactSchema,
   updateContactSchema,
 } from '../schemas/contactsSchemas.js';
+import { authMiddleware } from '../middleware/auth.js';
+
 const contactsRouter = express.Router();
 
-contactsRouter.get('/', getAllContacts);
+contactsRouter.get('/', authMiddleware, getAllContacts);
 
-contactsRouter.get('/:id', getOneContact);
+contactsRouter.get('/:id', authMiddleware, getOneContact);
 
-contactsRouter.delete('/:id', deleteContact);
+contactsRouter.delete('/:id', authMiddleware, deleteContact);
 
-contactsRouter.post('/', validateBody(createContactSchema), createContact);
+contactsRouter.post(
+  '/',
+  validateBody(createContactSchema),
+  authMiddleware,
+  createContact
+);
 
-contactsRouter.put('/:id', validateBody(updateContactSchema), updateContact);
-contactsRouter.patch('/:id/favorite', updeteStatusContact);
+contactsRouter.put(
+  '/:id',
+  validateBody(updateContactSchema),
+  authMiddleware,
+  updateContact
+);
+contactsRouter.patch('/:id/favorite', authMiddleware, updeteStatusContact);
 
 export default contactsRouter;

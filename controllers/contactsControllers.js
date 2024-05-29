@@ -3,7 +3,8 @@ import ctrlWrapper from '../helpers/ctrlWrapper.js';
 import Contacts from '../models/contacts.js';
 
 export const getAllContacts = ctrlWrapper(async (req, res) => {
-  const contacts = await Contacts.find();
+  const { _id: owner } = req.user;
+  const contacts = await Contacts.find({ owner });
   res.send(contacts);
 });
 
@@ -31,7 +32,9 @@ export const createContact = ctrlWrapper(async (req, res) => {
     email: req.body.email,
     phone: req.body.phone,
   };
-  const result = await Contacts.create(contact);
+  const { _id: owner } = req.user;
+
+  const result = await Contacts.create({ ...contact, owner });
   res.status(201).send(result);
 });
 
