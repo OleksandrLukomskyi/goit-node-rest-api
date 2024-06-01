@@ -25,10 +25,6 @@ export const authMiddleware = ctrlWrapper(async (req, res, next) => {
     throw HttpError(401, 'Not authorized');
   }
 
-  //   req.user = {
-  //     id: user._id,
-  //  ; }
-
   req.user = user;
   next();
 });

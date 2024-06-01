@@ -10,8 +10,8 @@ export const getAllContacts = ctrlWrapper(async (req, res) => {
 
 export const getOneContact = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
-  const {_id: owner} = req.user;
-  const contact = await Contacts.findOne({_id: id, owner});
+  const { _id: owner } = req.user;
+  const contact = await Contacts.findOne({ _id: id, owner });
   if (!contact) {
     throw HttpError(404);
   }
@@ -20,8 +20,8 @@ export const getOneContact = ctrlWrapper(async (req, res) => {
 
 export const deleteContact = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
-  const {_id: owner} = req.user;
-  const contact = await Contacts.findOneAndDelete({_id: id, owner});
+  const { _id: owner } = req.user;
+  const contact = await Contacts.findOneAndDelete({ _id: id, owner });
   if (!contact) {
     throw HttpError(404);
   }
@@ -42,7 +42,7 @@ export const createContact = ctrlWrapper(async (req, res) => {
 
 export const updateContact = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
-  const {_id: owner} = req.user;
+  const { _id: owner } = req.user;
   const { name, email, phone, favorite } = req.body;
 
   const contact = {
@@ -57,7 +57,9 @@ export const updateContact = ctrlWrapper(async (req, res) => {
       message: 'Request body is empty or does not contain any properties',
     });
   }
-  const result = await Contacts.findOneAndUpdate({_id: id, owner}, contact, { new: true });
+  const result = await Contacts.findOneAndUpdate({ _id: id, owner }, contact, {
+    new: true,
+  });
   if (!result) {
     throw HttpError(404);
   }
@@ -65,10 +67,9 @@ export const updateContact = ctrlWrapper(async (req, res) => {
   res.send(result);
 });
 
-
 export const updeteStatusContact = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
-  const {_id: owner} = req.user;
+  const { _id: owner } = req.user;
   const { name, email, phone, favorite } = req.body;
 
   const contact = {
@@ -82,7 +83,9 @@ export const updeteStatusContact = ctrlWrapper(async (req, res) => {
       message: 'Request body is empty or does not contain any properties',
     });
   }
-  const result = await Contacts.findOneAndUpdate({_id: id, owner}, contact, { new: true });
+  const result = await Contacts.findOneAndUpdate({ _id: id, owner }, contact, {
+    new: true,
+  });
   if (!result) {
     throw HttpError(404);
   }
