@@ -85,7 +85,7 @@ export const uploadAvatar = ctrlWrapper(async (req, res) => {
   const filename = `${_id}_${req.file.originalname}`;
   await fs.rename(req.file.path, path.resolve('public/avatars', filename));
 
-  const avatarURL = path.resolve('public/avatars', filename);
+  const avatarURL = `avatars/${filename}`;
   await User.findByIdAndUpdate(_id, { avatarURL });
 
   res.send({ avatarURL });
